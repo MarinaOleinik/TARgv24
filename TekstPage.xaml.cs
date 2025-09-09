@@ -1,10 +1,13 @@
+using System.Threading.Tasks;
+
 namespace TARgv24;
 
 public partial class TekstPage : ContentPage
 {
 	Label lblTekst;
 	Editor editorTekst;
-	HorizontalStackLayout hsl;
+    VerticalStackLayout hsl;
+	Button btn;
     public TekstPage()
 	{
 		lblTekst = new Label 
@@ -26,13 +29,39 @@ public partial class TekstPage : ContentPage
 			FontAttributes = FontAttributes.Italic
 		};
         editorTekst.TextChanged += EditorTekst_TextChanged;
-        hsl = new HorizontalStackLayout { 
+		btn = new Button
+		{
+			Text = "Loe tekst"
+		};
+        btn.Clicked += Btn_Clicked;
+        hsl = new VerticalStackLayout { 
 			BackgroundColor = Color.FromRgb(120, 30, 50),
-			Children = { lblTekst, editorTekst },
+			Children = { lblTekst, editorTekst,btn },
 			HorizontalOptions = LayoutOptions.Center
         };
 		Content = hsl;
     }
+
+    private async void Btn_Clicked(object? sender, EventArgs e)
+    {
+        var text = editorTekst.Text;
+
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            await DisplayAlert("Viga", "Palun sisesta tekst", "OK");
+            return;
+        }
+
+        try
+        {
+            await TextToSpeech.SpeakAsync(text);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("TTS viga", ex.Message, "OK");
+        }
+    }
+
     private void EditorTekst_TextChanged(object? sender, TextChangedEventArgs e)
     {
         lblTekst.Text=editorTekst.Text;
