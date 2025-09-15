@@ -44,17 +44,23 @@ public partial class TekstPage : ContentPage
 
     private async void Btn_Clicked(object? sender, EventArgs e)
     {
-        var text = editorTekst.Text;
+        IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
 
+        SpeechOptions options = new SpeechOptions()
+        {
+            Pitch = 1.5f,   // 0.0 - 2.0
+            Volume = 0.75f, // 0.0 - 1.0
+            Locale = locales.FirstOrDefault()
+        };
+        var text = editorTekst.Text;
         if (string.IsNullOrWhiteSpace(text))
         {
             await DisplayAlert("Viga", "Palun sisesta tekst", "OK");
             return;
         }
-
         try
         {
-            await TextToSpeech.SpeakAsync(text);
+            await TextToSpeech.SpeakAsync(text,options);
         }
         catch (Exception ex)
         {
