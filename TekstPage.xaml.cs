@@ -50,7 +50,7 @@ public partial class TekstPage : ContentPage
         {
             Pitch = 1.5f,   // 0.0 - 2.0
             Volume = 0.75f, // 0.0 - 1.0
-            Locale = locales.FirstOrDefault()
+            Locale = locales.FirstOrDefault(l => l.Language == "et-EE")
         };
         var text = editorTekst.Text;
         if (string.IsNullOrWhiteSpace(text))
