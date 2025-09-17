@@ -12,9 +12,19 @@ public partial class NäidisPage_lumi : ContentPage
     {
         taust = new AbsoluteLayout
         {
-            BackgroundColor = Color.FromRgb(10, 100, 100)
-        };
+            BackgroundColor = Color.FromRgb(10, 100, 100),
 
+        };
+        var tausta_pilt = new Image
+        {
+            Source = "snowtaust.png",
+            Aspect = Aspect.AspectFill
+        };
+        AbsoluteLayout.SetLayoutBounds(tausta_pilt, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(tausta_pilt, AbsoluteLayoutFlags.All);
+        
+       
+        taust.Children.Add(tausta_pilt);
         tahvel = new Grid
         {
             BackgroundColor = Colors.Transparent,
@@ -31,21 +41,8 @@ public partial class NäidisPage_lumi : ContentPage
         var panGesture = new PanGestureRecognizer();
         panGesture.PanUpdated += PanGesture_PanUpdated;
         tahvel.GestureRecognizers.Add(panGesture);
-
+        
         taust.Children.Add(tahvel);
-
-
-        //var test = new Image
-        //{
-        //    Source = "snow.png",
-        //    WidthRequest = 100,
-        //    HeightRequest = 100
-        //};
-        //AbsoluteLayout.SetLayoutBounds(test, new Rect(50, 50, 100, 100));
-        //AbsoluteLayout.SetLayoutFlags(test, AbsoluteLayoutFlags.None);
-        //taust.Children.Add(test);
-
-
         Content = taust;
     }
 
@@ -53,9 +50,6 @@ public partial class NäidisPage_lumi : ContentPage
     {
         if (e.StatusType == GestureStatus.Completed)
         {
-            // PanUpdatedEventArgs does not have GetPosition, so use TotalX and TotalY as relative movement
-            // You may want to use the last known position or calculate from tahvel's bounds
-            // Here, we use TotalX and TotalY as the drop location relative to tahvel's top-left
             LisaLumi(e.TotalX, e.TotalY);
         }
     }
@@ -73,7 +67,7 @@ public partial class NäidisPage_lumi : ContentPage
     {
         var lumi = new Image
         {
-            Source = "snow.png",
+            Source = "snowdrops.png",
             HeightRequest = random.Next(20, 100),
             WidthRequest = random.Next(20, 100),
         };
