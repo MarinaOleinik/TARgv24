@@ -50,7 +50,7 @@ public partial class NäidisPage_lumi : ContentPage
     {
         if (e.StatusType == GestureStatus.Completed)
         {
-            LisaLumi(e.TotalX, e.TotalY);
+            LisaLumi(e.TotalX+random.Next(0, (int)DeviceDisplay.MainDisplayInfo.Width/4), e.TotalY,"snow.png");
         }
     }
 
@@ -60,16 +60,16 @@ public partial class NäidisPage_lumi : ContentPage
         if (point == null)
             return;
 
-        LisaLumi(point.Value.X, point.Value.Y);
+        LisaLumi(point.Value.X, point.Value.Y, "snowdrops.png");
     }
 
-    private async void LisaLumi(double x, double y)
+    private async void LisaLumi(double x, double y,string file)
     {
         var lumi = new Image
         {
-            Source = "snowdrops.png",
-            HeightRequest = random.Next(20, 100),
-            WidthRequest = random.Next(20, 100),
+            Source = file,
+            HeightRequest = random.Next(20, 200),
+            WidthRequest = random.Next(20, 200),
         };
 
         // Asetame algselt punktile x,y
