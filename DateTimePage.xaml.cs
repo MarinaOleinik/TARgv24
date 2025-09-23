@@ -11,16 +11,16 @@ public partial class DateTimePage : ContentPage
 	Slider slider;
 	Stepper stepper;
     AbsoluteLayout al;
-    public DateTimePage()
+	public DateTimePage()
 	{
-		mis_on_valitud = new Label 
-		{ 
-			Text = "Siin kuvatakse valitud info", 
-			FontSize = 20, 
+		mis_on_valitud = new Label
+		{
+			Text = "Siin kuvatakse valitud info",
+			FontSize = 20,
 			TextColor = Colors.Red,
-			FontFamily="Lovin Kites 400"
+			FontFamily = "Lovin Kites 400"
 		};
-		
+
 		datePicker = new DatePicker
 		{
 			FontSize = 20,
@@ -30,9 +30,9 @@ public partial class DateTimePage : ContentPage
 			MinimumDate = DateTime.Now.AddDays(-7),//new DateTime(1900, 1, 1),
 			MaximumDate = new DateTime(2100, 12, 31),
 			Date = DateTime.Now,
-			Format="D"
+			Format = "D"
 		};
-        datePicker.DateSelected += Kuupäeva_valimine;
+		datePicker.DateSelected += Kuupäeva_valimine;
 
 		timePicker = new TimePicker
 		{
@@ -41,7 +41,7 @@ public partial class DateTimePage : ContentPage
 			TextColor = Colors.Black,
 			FontFamily = "Lovin Kites 400",
 			Time = new TimeSpan(12, 0, 0),
-			Format="T"
+			Format = "T"
 		};
 		timePicker.PropertyChanged += (s, e) =>
 		{
@@ -58,16 +58,38 @@ public partial class DateTimePage : ContentPage
 			BackgroundColor = Color.FromRgb(200, 200, 100),
 			TextColor = Colors.Black,
 			FontFamily = "Lovin Kites 400",
-			ItemsSource = new List<string> { "Üks", "Kaks", "Kolm", "Neli", "Viis" }
+			ItemsSource = new List<string> { "Teade", "Jah/Ei teade", "Valik", "Vaba vastus" }
 		};
+
+
 		//picker.Items.Add("Kuus");
 		//picker.ItemsSource.Add("Kuus");
-        picker.SelectedIndexChanged += (s, e) =>
+		picker.SelectedIndexChanged += (s, e) =>
 		{
 			if (picker.SelectedIndex != -1)
 			{
 				mis_on_valitud.Text = $"Valisite: {picker.Items[picker.SelectedIndex]}";
+				if (picker.SelectedIndex == 0)
+				{
+					DisplayAlert("Teade", "Meil on hea uudis!", "Selge");
+				}
+				else if (picker.SelectedIndex == 1)
+				{
+					DisplayAlert("Küsimus", "Kas soovite jätkata?", "Jah", "Ei");
+				}
+				else if (picker.SelectedIndex == 2)
+				{
+					var valik = new string[] { "Valik 1", "Valik 2", "Valik 3" };
+					var tulemus = DisplayActionSheet("Palun vali", "Katkesta", null, valik);
+				}
+				else if (picker.SelectedIndex == 3)
+				{
+					var tulemus = DisplayPromptAsync("Küsimus",
+						"Sisesta oma vastus", "OK", "Katkesta",
+						"Siia tuleb vastus", -1, Keyboard.Text, "Vastus");
+				}
 			}
+
 		};
 
 		slider = new Slider
@@ -99,31 +121,31 @@ public partial class DateTimePage : ContentPage
 		{
 			mis_on_valitud.Text = $"Stepper value: {e.NewValue}";
 		};
-        al = new AbsoluteLayout { Children = { mis_on_valitud, datePicker,timePicker, picker, slider,stepper} };
-        //AbsoluteLayout.SetLayoutBounds(mis_on_valitud, new Rect(0.5, 0.0, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(mis_on_valitud, AbsoluteLayoutFlags.All);
-        //AbsoluteLayout.SetLayoutBounds(datePicker, new Rect(0.5, 0.2, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(datePicker, AbsoluteLayoutFlags.All);
-        //AbsoluteLayout.SetLayoutBounds(timePicker, new Rect(0.5, 0.4, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(timePicker, AbsoluteLayoutFlags.All);
-        //AbsoluteLayout.SetLayoutBounds(picker, new Rect(0.5, 0.6, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(picker, AbsoluteLayoutFlags.All);
-        //AbsoluteLayout.SetLayoutBounds(slider, new Rect(0.5, 0.8, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(slider, AbsoluteLayoutFlags.All);
-        //AbsoluteLayout.SetLayoutBounds(stepper, new Rect(0.5, 1.0, 0.9, 0.2));
-        //AbsoluteLayout.SetLayoutFlags(stepper, AbsoluteLayoutFlags.All);
+		al = new AbsoluteLayout { Children = { mis_on_valitud, datePicker, timePicker, picker, slider, stepper } };
+		//AbsoluteLayout.SetLayoutBounds(mis_on_valitud, new Rect(0.5, 0.0, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(mis_on_valitud, AbsoluteLayoutFlags.All);
+		//AbsoluteLayout.SetLayoutBounds(datePicker, new Rect(0.5, 0.2, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(datePicker, AbsoluteLayoutFlags.All);
+		//AbsoluteLayout.SetLayoutBounds(timePicker, new Rect(0.5, 0.4, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(timePicker, AbsoluteLayoutFlags.All);
+		//AbsoluteLayout.SetLayoutBounds(picker, new Rect(0.5, 0.6, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(picker, AbsoluteLayoutFlags.All);
+		//AbsoluteLayout.SetLayoutBounds(slider, new Rect(0.5, 0.8, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(slider, AbsoluteLayoutFlags.All);
+		//AbsoluteLayout.SetLayoutBounds(stepper, new Rect(0.5, 1.0, 0.9, 0.2));
+		//AbsoluteLayout.SetLayoutFlags(stepper, AbsoluteLayoutFlags.All);
 
-        var elementid =new View[]
+		var elementid = new View[]
 		{
-             mis_on_valitud, datePicker,timePicker, picker, slider,stepper
+				mis_on_valitud, datePicker, timePicker, picker, slider, stepper
 		};
 		for (int i = 0; i < elementid.Length; i++)
 		{
 			AbsoluteLayout.SetLayoutBounds(elementid[i], new Rect(0.5, i * 0.16, 0.9, 0.15));
-			AbsoluteLayout.SetLayoutFlags(elementid[i], AbsoluteLayoutFlags.All); 
+			AbsoluteLayout.SetLayoutFlags(elementid[i], AbsoluteLayoutFlags.All);
 		}
-        Content = al;
-    }
+		Content = al;
+	}
 
     private void Kuupäeva_valimine(object? sender, DateChangedEventArgs e)
     {

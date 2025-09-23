@@ -4,8 +4,8 @@ namespace TARgv24;
 
 public partial class StartPage : ContentPage
 {
-	public List<ContentPage> lehed= new List<ContentPage>() { new TekstPage(), new FigurePage(), new TimerPage(), new DateTimePage(), new NäidisPage_lumi()};
-	public List<string> tekstid= new List<string>() { "Tee lahti leht Tekst'ga", "Tee lahti Figure leht", "Käivita taimeri", "Kuupäevad ja kellaajad" , "Viska"};
+	public List<ContentPage> lehed= new List<ContentPage>() { new TekstPage(), new FigurePage(), new TimerPage(), new DateTimePage(), new NäidisPage_lumi(), new GrigPage()};
+	public List<string> tekstid= new List<string>() { "Tee lahti leht Tekst'ga", "Tee lahti Figure leht", "Käivita taimeri", "Kuupäevad ja kellaajad" , "Viska","Grid"};
 	ScrollView sv;
 	VerticalStackLayout vsl;
     public StartPage()
